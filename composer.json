@@ -1,0 +1,32 @@
+{
+    "name": "panobit/sms-gateway",
+    "description": "Multiple SMS provider gateway package.",
+    "type": "library",
+    "authors": [
+        {
+            "name": "James Staricha",
+            "email": "james.staricha@panobit.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "require-dev": {
+        "aws/aws-sdk-php": "^3.87",
+        "kavenegar/php": "^1.2",
+        "mediaburst/clockworksms": "^2.0",
+        "melipayamak/php": "^0.1.0",
+        "nexmo/client": "^1.6 || ^2.0",
+        "orchestra/testbench": "~3.7|~3.8|^4.0",
+        "phpunit/phpunit": "^8.0",
+        "smsgatewayme/client": "^0.0.1",
+        "squizlabs/php_codesniffer": "^2.3 || ^3.0",
+        "twilio/sdk": "^5.27"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "panobit\\smsgateway\\SmsServiceProvider"
+            ]
+        }
+    }
+}
