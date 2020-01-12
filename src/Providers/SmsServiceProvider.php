@@ -1,8 +1,9 @@
 <?php
 
-namespace Panobit\SmsGateway;
+namespace Panobit\SmsGateway\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Panobit\SmsGateway\SmsManager;
 
 class SmsServiceProvider extends ServiceProvider
 {
@@ -17,8 +18,17 @@ class SmsServiceProvider extends ServiceProvider
          * Configurations that needs to be done by user.
          */
         $this->publishes([
-            __DIR__.'/Config/sms.php' => config_path('sms.php'),
+            __DIR__.'/../Config/sms.php' => config_path('sms.php'),
         ], 'config');
+
+
+        /**  Not sure if this works
+        $this->mergeConfigFrom(
+            __DIR__ . '/../Config/sms.php',
+            'sms'
+        );
+         **/
+
         /**
          * Bind to service container.
          */
@@ -26,7 +36,7 @@ class SmsServiceProvider extends ServiceProvider
             return new SmsManager(config('sms'));
         });
 
-        $this->loadRoutesFrom(__DIR__.'/routes.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes.php');
     }
 
     /**
@@ -36,7 +46,7 @@ class SmsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->register(EventProvider::class);
     }
 
 }
