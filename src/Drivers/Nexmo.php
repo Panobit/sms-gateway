@@ -4,11 +4,12 @@ namespace Panobit\SmsGateway\Drivers;
 
 use Nexmo\Message\Text;
 use Nexmo\Client;
-use Panobit\SmsGateway\Abstracts\Driver;
 use Nexmo\Client\Credentials\Basic;
+use Panobit\SmsGateway\Abstracts\Driver;
 
 class Nexmo extends Driver
 {
+
     /**
      * Settings.
      *

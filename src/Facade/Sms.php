@@ -14,6 +14,6 @@ class Sms extends Facade
      */
     public static function getFacadeAccessor()
     {
-        return 'panobit-sms';
+        return 'sms-gateway';
     }
 }

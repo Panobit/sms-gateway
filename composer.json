@@ -25,8 +25,11 @@
     "extra": {
         "laravel": {
             "providers": [
-                "panobit\\smsgateway\\SmsServiceProvider"
-            ]
+                "Panobit\\SmsGateway\\Providers\\SmsServiceProvider"
+            ],
+            "aliases": {
+                "Sms": "Panobit\\SmsGateway\\Facade\\Sms"
+            }
         }
     }
 }

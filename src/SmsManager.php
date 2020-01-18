@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Panobit\SmsGateway;
 
 use Exception;
@@ -7,32 +8,14 @@ use ReflectionClass;
 
 class SmsManager
 {
-    /**
-     * Sms Configuration.
-     *
-     * @var array
-     */
+
     protected $config;
 
-    /**
-     * Sms Driver Settings.
-     *
-     * @var array
-     */
     protected $settings;
 
-    /**
-     * Sms Driver Name.
-     *
-     * @var string
-     */
     protected $driver;
 
-    /**
-     * @var SmsBuilder
-     */
     protected $builder;
-
 
     public function __construct($config)
     {
@@ -41,23 +24,12 @@ class SmsManager
         $this->via($this->config['default']);
     }
 
-    /**
-     * @param string|array $recipients
-     * @return self
-     */
     public function to($recipients)
     {
         $this->builder->to($recipients);
         return $this;
     }
 
-    /**
-     * Change the driver on the fly.
-     *
-     * @param $driver
-     * @return $this
-     * @throws \Exception
-     */
     public function via($driver)
     {
         $this->driver = $driver;
@@ -67,14 +39,6 @@ class SmsManager
         return $this;
     }
 
-    /**
-     * Send message.
-     *
-     * @param $message
-     * @param $callback
-     * @return mixed
-     * @throws \Exception
-     */
     public function send($message, $callback = null)
     {
         if ($message instanceof SmsBuilder) {
@@ -90,26 +54,25 @@ class SmsManager
         return $driver->send();
     }
 
-
     public function dispatch()
     {
         $this->driver = $this->builder->getDriver() ?: $this->driver;
+
         if (empty($this->driver)) {
             $this->via($this->config['default']);
         }
+
         $driver = $this->getDriverInstance();
         $driver->message($this->builder->getBody());
         $driver->to($this->builder->getRecipients());
         return $driver->send();
     }
 
-
     protected function setBuilder(SmsBuilder $builder)
     {
         $this->builder = $builder;
         return $this;
     }
-
 
     protected function getDriverInstance()
     {
@@ -118,14 +81,13 @@ class SmsManager
         return new $class($this->settings);
     }
 
-
     protected function validateDriver()
     {
         $conditions = [
             'Driver not selected or default driver does not exist.' => empty($this->driver),
             'Driver not found in config file. Try updating the package.' => empty($this->config['drivers'][$this->driver]) || empty($this->config['map'][$this->driver]),
             'Driver source not found. Please update the package.' => ! class_exists($this->config['map'][$this->driver]),
-            'Driver must be an instance of Contracts\DriverInterface.' => ! (new ReflectionClass($this->config['map'][$this->driver]))->implementsInterface(Contracts\DriverInterface::class),
+            'Driver must be an instance of Contracts\DriverInterface.' => ! (new ReflectionClass($this->config['map'][$this->driver]))->implementsInterface(Interfaces\SmsInterface::class),
         ];
         foreach ($conditions as $ex => $condition) {
             throw_if($condition, new Exception($ex));

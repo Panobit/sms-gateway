@@ -32,7 +32,7 @@ class SmsServiceProvider extends ServiceProvider
         /**
          * Bind to service container.
          */
-        $this->app->bind('panobit-sms', function () {
+        $this->app->bind('sms-gateway', function () {
             return new SmsManager(config('sms'));
         });
 
@@ -46,7 +46,7 @@ class SmsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->register(EventProvider::class);
+        #$this->app->register(EventProvider::class);
     }
 
 }
